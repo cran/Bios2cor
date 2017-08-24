@@ -1,0 +1,5 @@
+#positions of helices
+#Name:begin-middle-end
+1:1-22-35
+2:46-60-77
+3:88-120-129
