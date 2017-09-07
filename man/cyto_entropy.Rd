@@ -42,7 +42,7 @@
   #Creating ENTROPY object and writing results in cytoscape format
   entropy <- entropy(align)
   
-  cyto_ent <- cyto_entropy(entropy, contact = NULL, "~/cyto_entropy.txt")
+  cyto_ent <- cyto_entropy(entropy, contact = NULL, "cyto_entropy.txt")
 }
 
 \keyword{cytoscape}

@@ -42,7 +42,7 @@
   #Creating OMES object and writing Z-scores in cytoscape format
   omes <- omes(align)
   
-  results <- cyto_zscore(omes, contact = NULL, "~/cyto_Zscore.txt")
+  results <- cyto_zscore(omes, contact = NULL, "cyto_Zscore.txt")
 }
 
 \keyword{cytoscape}

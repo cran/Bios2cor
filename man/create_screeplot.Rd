@@ -46,7 +46,7 @@
 
   pca <- centered_pca(omes, m = NULL, pc= NULL, dec_val= 5,eigenvalues_csv= NULL)
 
-  create_screeplot(pca, pca_index= NULL, "~/screeplot.png")
+  create_screeplot(pca, pca_index= NULL, "screeplot.png")
   
 }
 

@@ -1,4 +1,4 @@
-dfcc2458c18c5dbe7d5869213b362c19 *DESCRIPTION
+ee9e4f5fc5b39890859689fc13aaf458 *DESCRIPTION
 9deabd257a575d79bdb151c31044df81 *NAMESPACE
 4aa06188083eed8c5945aaf0437496fc *R/ang_evo_graph.R
 736de1c9ceec7574ba57d36d59843926 *R/angle_conversion.R
@@ -54,10 +54,10 @@ d30f1cc50706c3bae9aefd655ff00de8 *man/centered_pca.Rd
 0e059fd9b583be177a1249a408979043 *man/create_corrfile.Rd
 faf58a83ba7c2055246e59afc8d1497c *man/create_entropyfile.Rd
 e7c9beefbfa9ac9d07eabb46ceaa3a52 *man/create_network.Rd
-91a63957d4eb4021eaad05ea725b50bf *man/create_pcafile.Rd
-5f9f051375f395c9d94e021563bb9bbf *man/create_screeplot.Rd
-89423d7e47d9e1d68c3f84745d30eba3 *man/cyto_entropy.Rd
-cc34fb423fc5f75a3e3681fccfc90853 *man/cyto_zscore.Rd
+a0c43ba43f334d45a024617e6528d40b *man/create_pcafile.Rd
+6d04178c41f278de3a1c24d9972110b1 *man/create_screeplot.Rd
+de731fbc3f89ca49af38cea89e55f761 *man/cyto_entropy.Rd
+88f47d9372d80bafcef938f921b95a35 *man/cyto_zscore.Rd
 2352fa6812b8be27b8faf66e6d24b99e *man/delta_weighting.Rd
 31ce5be7c430e3d9093d4e319bf37f26 *man/dynamic_struct.Rd
 996a465eee0e0a60d1817b5a587039ff *man/elsc.Rd

@@ -69,7 +69,7 @@
 
   pca <- centered_pca(omes, m = NULL, pc= NULL, dec_val= 5,eigenvalues_csv= NULL)
    
-  create_pcafile(pca, entropy = NULL,"~/pca_results.txt",10,"~/pc1.txt","~/pc2.txt")
+  create_pcafile(pca, entropy = NULL,"pca_results.txt",10,"pc1.txt","pc2.txt")
   
 }
 
