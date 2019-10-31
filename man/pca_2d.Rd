@@ -13,7 +13,7 @@
 }
 
 \usage{
-  pca_2d(pca_struct, abs= 1, ord= 2, filepath)
+  pca_2d(pca_struct, abs= 1, ord= 2, filepathroot=NULL)
 }
 
 \arguments{
@@ -21,13 +21,13 @@
   An object created by the \code{\link{centered_pca}} function
  }
  \item{abs}{
-  An integer which corresponds to the component that will be projected onto the x axis. Default is 1 (first component)
+  An integer which corresponds to the x axis of the projection plane. Default is 1 (first component)
  }
  \item{ord}{
-  An integer which corresponds to the component that will be projected onto the y axis. Default is 2 (second component)
+  An integer which corresponds to the y axis of the projection plane. Default is 2 (second component)
  }
- \item{filepath}{
-  The full path name of the png file that will be creared
+ \item{filepathroot}{
+  The root of the full path name for the output file. Default is NULL (a "PCA_abs_ord.png" file will be created). If not NULL, the filepathroot will have the "_PCA_abs_ord.png" extension. 
  }
 }
 
@@ -40,21 +40,32 @@
 }
 
 \examples{
+  #File path for output files
+  wd <- tempdir()
+  #wd <-getwd() 
+  file <- file.path(wd,"test_seq2") 
+
+  #Importing MSA file
   msf <- system.file("msa/toy_align.msf", package = "Bios2cor")
   align <- import.msf(msf)
 
-  #Creating OMES object
-  omes <- omes(align)
+  #Creating OMES correlation object
+  omes <- omes(align, gap_ratio = 0.2)
 
-  #Creating ENTROPY object
-  entropy <- entropy(align)
+  #Creating entropy object
+  #entropy <- entropy(align)
 
-  # Creating PCA structures for OMES method and storing in txt file
-  omes <-omes$normalized
-  pca <- centered_pca(omes, m= NULL, pc= NULL, dec_val= 5,eigenvalues_csv= NULL)
-  pca_2d(pca, abs= 1, ord= 2, "pca_2d.png")
-  
+  #Selecting correlation matrix
+  omes <-omes$Zscore
+
+  #Creating PCA object for selected correlation matrix and saving eigen values
+  pca <- centered_pca(omes, filepathroot= file, pc= NULL, dec_val= 5, filter= NULL)
+
+  #Creating 2D plot of elements projected on selected [abs,ord] plane 
+  pca_2d(pca, abs = 1, ord = 3, file)
+
+  #Creating 2D plot of elements projected on default [1,2] plane 
+  #pca_2d(pca)  
 }
 
-\keyword{pca}
-\keyword{2d}
+

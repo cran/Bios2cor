@@ -39,17 +39,17 @@ aa.strict = FALSE, align = NULL, align.replace = TRUE)
 }
 }
 \details{
-\code{random.msa} may be used to compare a reference MSA to a random MSA. The random MSA must have the same characteristics as the reference MSA (same number of sequences of same length). This function has been initially developped in the \code{bios2mds} R package (Julien PELE [aut], Marie CHABBERT [cre])
+\code{random.msa} may be used to compare a reference MSA to a random MSA. The random MSA must have the same characteristics as the reference MSA (same number of sequences of same length). 
 
-A procedure can be applied to the random MSA to assess the amount of variance due to
-random mutations in the reference MSA. 
+A procedure can be applied to the random MSA to assess the amount of variance due to random mutations in the reference MSA. 
+
+The \code{subset} function is used for random selection of the amino acids. If a truly random procedure is needed, see \code{random} package.
 }
 \value{
 A named list whose objects correspond to random sequences.
 }
 \note{
-The \code{subset} function is used for random selection of the amino acids. If a truly random
-procedure is needed, see \code{random} package.
+This function has been initially developped in the \code{bios2mds} R package (Julien PELE [aut], Marie CHABBERT [cre]).
 }
 \author{
 Julien PELE
@@ -63,12 +63,13 @@ Pele J, Abdi H, Moreau M, Thybert D and Chabbert M (2011) Multidimensional scali
 \code{permutation} and \code{synsequence} functions from \code{seqinr} package.
 }
 \examples{
-# generating a random sequence alignment with the same characterics
-# as human GPCRs:
-aln <- import.fasta(system.file("msa/toy2_align.fa", package = "Bios2cor"))
-nb.seq <- length(aln)
-nb.pos <- length(aln[[1]])
-aln.random <- random.msa(nb.seq = nb.seq, nb.pos = nb.pos)
+  #Importing MSA file
+  aln <- import.fasta(system.file("msa/toy2_align.fa", package = "Bios2cor"))
+
+  #Generating a random sequence alignment with the same characterics as input file
+  nb.seq <- length(aln)
+  nb.pos <- length(aln[[1]])
+  aln.random <- random.msa(nb.seq = nb.seq, nb.pos = nb.pos)
 }
-\keyword{utilities}
+
 

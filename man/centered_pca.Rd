@@ -5,37 +5,37 @@
 \alias{centered_pca}
 
 \title{
-  Principal component analysis of a correlation/covariation matrix
+  Performs principal component analysis of a correlation/covariation matrix 
 }
 
 \description{
-  Given a correlation matrix, performs a principal component analysis of a correlation/covariation matrix.
+  Given a correlation/covariation matrix, performs the principal component analysis of the centered matrix.
 }
 
 \usage{
-  centered_pca(mat, m = NULL, pc= 3, dec_val= 3, eigenvalues_csv= NULL)
+  centered_pca(corr_matrix, filepathroot= NULL, filter = NULL, pc= NULL, dec_val= 5)
 }
 
 \arguments{
- \item{mat}{
-  A matrix created by a correlation function (\code{\link{omes}}, \code{\link{mip}}, \code{\link{elsc}}, \code{\link{mcbasc}}, \code{\link{rotamer_circular}}, \code{\link{rotamer_omes}}, \code{\link{rotamer_mip}})
+ \item{corr_matrix}{
+  A score or Zscore matrix created by a correlation/covariation function (\code{\link{omes}}, \code{\link{mip}}, \code{\link{elsc}}, \code{\link{mcbasc}}, \code{\link{dynamic_circular}}, \code{\link{dynamic_omes}}, \code{\link{dynamic_mip}})
  }
- \item{m}{
-  A weighting filter calculated by a weighting function (\code{\link{gauss_weighting}}, \code{\link{sigmoid_weighting}} or \code{\link{delta_weighting}}). DEFAULT is NULL (no filter is applied and each element has the same weight equal to the inverse of the number of elements).
+ \item{filepathroot}{
+  The root of the full path name for the csv and png files where eigen values are stored or displayed. Default is NULL (Two "EIGEN.csv" and "EIGEN.png" files are created). If not NULL, the extensions "_EIGEN.csv" and "_EIGEN.png" are added to the filepathroot. 
+ }
+ \item{filter}{
+  A filter calculated by the \code{\link{delta_filter}} function to limit the analysis to elements within a given entropy/dynamic_entropy range. DEFAULT is NULL (no filter is applied and each element has the same weight equal to the inverse of the number of elements).
  }
  \item{pc}{
-  A numeric value indicating the number of principal components to be saved.
+  A numeric value indicating the number of principal components to be saved. Default is NULL (all the principal components are saved).
  }
  \item{dec_val}{
-  A numeric value corresponding to the precision when the \emph{round} function is used.
- }
- \item{eigenvalues_csv}{
-  A full path name for the csv file where eigen values are stored. Default is NULL (csv file is not created). If not NULL, a png file will also be created with the .csv extension replaced by .png
+  A numeric value corresponding to the precision when the \emph{round} function is used. Default is 5.  
  }
 }
 
 \details{
-  This function performs a principal component analysis of a correlation/covariation matrix after double centering. It is based on the matrix centering of the \emph{mmds.R} function from the \emph{Bios2mds} package.The elements may have the same weight or different weights. In this case, a weighting filter, corresponding to the relative weight of each matrix element, is passed as a parameter The weighting filter is calculated by a weighting function based on the element entropy.
+  This function performs a principal component analysis of a correlation/covariation matrix after double centering. It is based on the matrix centering algorithm of the \code{mmds.R} function from the \code{Bios2mds} package. The elements have the same weight except when a delta filter is indicated. In this latter case, only the elements allowed by the delta filter are taken into account.
 }
 
 \value{
@@ -47,38 +47,46 @@
   a numeric vector of the relative eigenvalues (eigenvalues divided by the sum of the absolute eigenvalues)
   }
   \item{coord}{
-  a numeric matrix representing the coordinates of each element of the correlation matrix in the PCA space
+  a numeric matrix representing the coordinates of each element of the correlation/covariation matrix in the PCA space
   }
   \item{source}{
-  a named list with 2 elements, the correlation matrix (\bold{cor}) and the vector of mass \bold{m} which is used to give a different weight to each element.
+  a named list with 2 elements, the correlation/covariation matrix (\code{cor}) and the delta filter vector (\code{filter}) to limit the analysis to elements within a given entropy range.
   }
+ returns also two files: a csv file containing eigen values and a png file displaying eigen values.
+
 }
 
 
 
 \author{
-  Antoine GARNIER 
+  Antoine GARNIER and Marie CHABBERT 
 }
 
 \examples{
-   msf <- system.file("msa/toy_align.msf", package = "Bios2cor")
+  #File path for output files
+  wd <- tempdir()
+  #wd <- getwd()
+  file <- file.path(wd,"test_seq_pca") 
+
+  #Importing multiple sequence alignment
+  msf <- system.file("msa/toy_align.msf", package = "Bios2cor")
   align <- import.msf(msf)
 
-  #Creating OMES object
-  omes <- omes(align,fileHelix= NULL , diag= 0, fileCSV= NULL, gap_val= 0.8, z_score= TRUE)
+  #Creating correlation object with OMES method
+  omes <- omes(align, gap_ratio= 0.2)
 
-  #Creating ENTROPY object
-  entropy <- entropy(align)
+  #Creating entropy object
+  entropy <- entropy(align, gap_ratio=0.2)
 
-  #Creating weighting filter
-  filter <- gauss_weighting(entropy, L= 0.1)
+  #Creating delta filter based on entropy
+  filter <- delta_filter(entropy, Smin = 0.2, Smax = 0.6)
   
-  # Creating PCA structures for OMES method and storing in txt file
-  omes <-omes$normalized
-  pca <- centered_pca(omes, m= filter, pc= NULL, dec_val= 5,eigenvalues_csv= NULL)
-  #create_pcafile(pca, "pca_results.txt",10,"pc1.txt","pc2.txt")
+  #Selecting a correlation/covariation matrix
+  matrix_omes <-omes$score
+
+  #Creating PCA object for selected matrix and storing eigen values in csv file
+  pca <- centered_pca(matrix_omes, filepathroot= file, filter = filter)
+
 }
 
-\keyword{pca}
-\keyword{weighting}
-\keyword{correlation}
+

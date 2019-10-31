@@ -5,7 +5,7 @@
 \alias{mcbasc}
 
 \title{
-  McBASC(McLachlan Based Substitution Correlation) function
+  McBASC (McLachlan Based Substitution Correlation) function
 }
 
 \description{
@@ -14,27 +14,15 @@
 }
 
 \usage{
-  mcbasc(align, fileHelix= NULL, diag= 0, fileCSV= NULL, gap_val= 0.8, z_score= TRUE)
+  mcbasc(align, gap_ratio= 0.2)
 }
 
 \arguments{
  \item{align}{
- An object of class 'align' created by the \bold{\emph{import.msf}} or the \bold{\emph{import.fasta}} function from a sequence alignment 
+ An object of class 'align' created by the \code{\link{import.msf}} or the \code{\link{import.fasta}} function from a sequence alignment 
  }
- \item{fileHelix}{
- A string of characters that indicates the file containing the positions of the anchor residues in the sequence alignment. To be used for the analysis of GPCR sequences. Default is NULL.
- }
- \item{diag}{
-  A numeric value indicating the score of the diagonal elements in the scoring matrix. Default is 0.
- }
- \item{fileCSV}{
-  A string of characters indicating the name of the csv file where the output matrix will be saved. Default is NULL.
- }
- \item{gap_val}{
-  Numeric value indicating the gap ratio at a given position for this position to be taken into account. This value must be between 0 and 0.8. Default is 0.8, which means that positions with more than 80 percent of gaps will not be taken into account.
- }
- \item{z_score}{
-  A boolean for Z-score normalisation of the covariation matrix. Default is TRUE.
+ \item{gap_ratio}{
+  Numeric value between 0 and 1 indicating the maximal gap ratio at a given position in the MSA for this position to be taken into account. Default is 0.2, positions with more than 20 percent of gaps will not be taken into account in the analysis. When gap_ratio is 1 or close to 1, only positions with at least 1 aa are taken into account (positions with only gaps are excluded). 
  }
 }
 
@@ -55,25 +43,25 @@
 }
 
 \value{
-  A list of two elements : a matrix containing a correlation score for each pair of rotamer and its normalized version
+  A list of two elements which are numeric matrices containing the mcbasc scores and Z-scores for each pair of elements.
 }
 
 \author{
-  Madeline DENIAUD and Antoine GARNIER
-}
-
-\examples{
-  align <- import.msf(system.file("msa/toy_align.msf", package = "Bios2cor"))
-
-  #Creating McBASC object
-  mcbasc <- mcbasc(align)
-
+  Madeline DENIAUD and Marie CHABBERT
 }
 
 \references{
  (1) Gobel U, Sander C, Schneider R, Valencia A. Correlated mutations and residue contacts in proteins. Proteins 1994;18:309-317.
 }
 
-\keyword{correlation}
-\keyword{substitution}
-\keyword{mcbasc}
+
+\examples{
+  #Importing MSA file
+  align <- import.msf(system.file("msa/toy_align.msf", package = "Bios2cor"))
+
+  #Creating correlation object with McBASC method for positions with gap_ratio < 0.2 (Default)
+  mcbasc <- mcbasc(align, gap_ratio = 0.2)
+}
+
+
+

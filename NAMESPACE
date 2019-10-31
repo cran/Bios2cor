@@ -1,13 +1,12 @@
-export("ang_evo_graph", "angle_conversion", "centered_pca", "corr_contact", "create_boxplot", "create_corrfile", "create_entropyfile", "create_network", "create_pcafile", "create_screeplot", "cyto_entropy", "cyto_zscore", "delta_weighting", "dynamic_struct", "elsc", "entropy", "entropy_graph", "gauss_weighting", "import.fasta", "import.msf", "mcbasc", "mip", "omes", "pca_2d", "random.msa", "rotamer_circular", "rotamer_entropy", "rotamer_mip", "rotamer_omes", "shuffle_all", "shuffle_positions", "sigmoid_weighting", "write_pdb", "xyz2torsion")
+export("angles.plot", "angle2rotamer", "centered_pca", "top_pairs_analysis", "scores.boxplot", "write.scores", "write.entropy", "network.plot", "write.pca", "pca_screeplot", "delta_filter", "dynamic_structure", "elsc", "entropy", "scores_entropy.plot", "import.fasta", "import.msf", "mcbasc", "mi","mip", "omes", "pca_2d", "random.msa", "dynamic_circular", "dynamic_mi", "dynamic_mip", "dynamic_omes", "dynamic_entropy", "write.pca.pdb", "xyz2torsion")
 
 import("bio3d", "bigmemory", "parallel")
 
 importFrom("circular", "circular", "cor.circular")
 
-importFrom("igraph", "graph_from_data_frame")
-importFrom("igraph", "degree")
+importFrom("igraph", "graph_from_data_frame", "degree")
 
 importFrom("grDevices", "adjustcolor", "dev.off", "graphics.off","pdf", "png", "rgb")
-importFrom("graphics", "abline", "box", "boxplot", "layout", "lines", "par", "plot", "points")
-importFrom("stats", "sd", "var")
-importFrom("utils", "read.table", "setTxtProgressBar", "txtProgressBar", "write.table")
+importFrom("graphics", "abline", "box", "boxplot", "layout", "lines", "par", "plot", "points","hist")
+importFrom("stats", "sd", "var","na.omit")
+importFrom("utils", "read.table", "setTxtProgressBar", "txtProgressBar", "write.table","write.csv")

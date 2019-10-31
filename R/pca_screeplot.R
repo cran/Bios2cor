@@ -1,5 +1,3 @@
-# Package: Bios2cor 
-# This file is part of Bios2cor R package.
 # Bios2cor is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 2 of the License, or
@@ -13,24 +11,26 @@
 # See the GNU General Public License at:
 # http://www.gnu.org/licenses/
 #
-pca_2d <- function(pca_struct, abs= 1, ord= 2, filepathroot=NULL){
-#  if(is.null(abs)) abs <- 1
-#  if(is.null(ord)) ord <- 2
-  
+pca_screeplot <- function(pca_struct, filepathroot=NULL){
   pca_coord <- pca_struct$coord
-  pca_abs <- pca_coord[, abs]
-  pca_ord <- pca_coord[, ord]
   
-  pca_x <- paste("PCA", abs, sep= "")
-  pca_y <- paste("PCA", ord, sep= "")
- 
-  if(is.null(filepathroot)){
-     filename <- paste("PCA_", abs,"_",ord,".png")
-  } else {
-     filename <- paste(filepathroot,"_PCA_", abs,"_",ord,".png")
-  }
+  nb_component <- length(pca_coord[1,])
+  pca_positions <- rownames(pca_coord)
 
-  png(filename)
-    plot(pca_abs, pca_ord, xlab= pca_x, ylab= pca_y, main= basename(filename))
+  components <- 1:nb_component
+  
+  variances <- unlist(lapply(1:nb_component, function(x){var(pca_coord[,x])}))
+
+  if(is.null(filepathroot)) {
+    filename <- "SCREEPLOT.png" 
+  } else {
+    filename <- paste(filepathroot, "_SCREEPLOT.png", sep="")
+  }  
+  
+  png(filename, width = 600, height = 600, units = "px")
+    plot(components, variances, main= basename(filename))
+    lines(components, variances)
   dev.off()
 }
+
+ 

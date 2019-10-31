@@ -11,39 +11,52 @@
 # See the GNU General Public License at:
 # http://www.gnu.org/licenses/
 #
-centered_pca <- function(mat, m = NULL, pc= 3, dec_val= 3, eigenvalues_csv= NULL){
-  
-  #Centering the initial matrix
-  cor <- mat
-  size <- length(mat[,1])
+centered_pca <- function(corr_matrix, filepathroot = NULL, filter = NULL, pc= NULL, dec_val= 5){
+ 
+  if(missing(corr_matrix) | is.null(corr_matrix)) {
+    stop("A correlation matrix is required")
+  }
+
+  if(!is.matrix(corr_matrix)){
+     stop("The first argument must be a score or Zscore matrix.")
+  }
+
+ 
+ #Centering the initial matrix
+  cor <- corr_matrix
+  size <- length(corr_matrix[,1])
   
   #Positions count
-  if(is.null(pc) | missing(pc)) pc <- size
+  if(is.null(pc)) {
+  pc <- size
   print(paste("pc : ", size))
-  
+  }
+
   #identity matrix
   I <- diag(1, size)
 
-  #mat matrix of ones
+  #matrix of ones
   ONES <- matrix(1, nrow = size, ncol = 1)
   
-  #Without mentioning any filter, every position has the same weighting
-  if(is.null(m) | missing(m)){
+  
+  if(is.null(filter)) {
     print("No filter applied")
+    #Without filter, the elements have the same mass/weight
     m <- matrix(1/size, nrow= size, ncol= 1)
-    mat_names <- colnames(mat) #position names of mat
+    mat_names <- colnames(corr_matrix) # names of elements in corr_matrix
   } else {
     print("Filter applied")
-    #Adapting the m filter to contain the positions of mat (positions that have a correct gap proportion)
-    mat_names <- colnames(mat) #position names of mat
-    
-    m <- m[mat_names]
+    mat_names <- colnames(corr_matrix) #names of elements in corr_matrix
+    #filter is limited to the elements present in corr_matrix (may differ in sequence analysis)
+    m <- filter[mat_names]    
+    SUM <- sum(m)
+    m <- m/SUM
   }
   
   #m vector of mass
   BigI<-I-(ONES%*%t(m))
   
-  #compute mat cross-product matrix
+  #compute cross-product matrix
   S <-  BigI %*% cor %*% t(BigI)
   
   #Diagonalizing the centered matrix
@@ -62,21 +75,31 @@ centered_pca <- function(mat, m = NULL, pc= 3, dec_val= 3, eigenvalues_csv= NULL
   eigen$values <- eigen$values[eigen$values > 0]
   nb_positiv_eigenvalues <- length(eigen$values)
   
-  #Storing eigen values in csv file
-  if(!is.null(eigenvalues_csv)){
+  #Storing and plotting eigen values 
+    if(is.null(filepathroot)){
+      eigen_csv <- "EIGEN.csv"
+      eigen_png <- "EIGEN.png"
+    } else {
+      eigen_csv <- paste(filepathroot, "_EIGEN.csv", sep="")
+      eigen_png <- paste(filepathroot, "_EIGEN.png", sep="")
+    }
+ 
     positiv_ev <- sum(eigen$values)
     perc_positiv_ev <- unlist(lapply(eigen$values, function(x){x*100/positiv_ev}))
     
-    csv_tab <- data.frame("eigen$values"= all_eigen_values, "positiv_percent"= c(perc_positiv_ev, rep(0, nb_eigenvalues-nb_positiv_eigenvalues)))
-    write.table(csv_tab, row.names= FALSE, file= basename(eigenvalues_csv))
-    
-    eigenvalues_png <- paste(substr(eigenvalues_csv, 1, nchar(eigenvalues_csv)-4), ".png", sep= "")
-    png(eigenvalues_png)
-      plot(1:nb_eigenvalues, all_eigen_values, main= basename(eigenvalues_png))
+    png(eigen_png)
+      plot(1:nb_eigenvalues, all_eigen_values, main= basename(eigen_png))
       abline(h= 0, lty= 2)
     dev.off()
-  }
-  
+
+    all_eigen_values <- round(all_eigen_values,digits = 3)
+    perc_positiv_ev <- round(perc_positiv_ev, digits= 3)
+
+    csv_tab <- data.frame("eigen$values"= all_eigen_values, "positiv_percent"= c(perc_positiv_ev, rep(0, nb_eigenvalues-nb_positiv_eigenvalues)))
+    write.table(csv_tab, row.names= FALSE, file= eigen_csv)
+    
+ 
+
   res$source<-list()
   res$source$cor <- cor
   res$source$m<-m
@@ -85,16 +108,18 @@ centered_pca <- function(mat, m = NULL, pc= 3, dec_val= 3, eigenvalues_csv= NULL
   if (pc < 2) pc <- 3
   if (pc > length(eigen$values)) pc <- length(eigen$values)
 
-  #Computing PCA for the centered and diagonalized matrix
-  #eigenvalues are transformed into percentage
-  #compute mat matrix of factor scores
+  #compute the matrix of factor scores
   
   F <- diag(as.vector(m)^(-0.5)) %*% eigen$vectors %*% diag(eigen$values^0.5)
   
   coord <- data.frame(F[, 1:pc])
-  rownames(coord) <- rownames(mat)
+  rownames(coord) <- rownames(corr_matrix)
   colnames(coord) <- paste ("PC", (1:pc), sep = "")
+
   res$coord = round(coord, dec_val)
   class (res) <- c("pca")
   return (res)
+
+
+ 
 }

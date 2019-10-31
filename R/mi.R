@@ -13,8 +13,8 @@
 # See the GNU General Public License at:
 # http://www.gnu.org/licenses/
 
-mip <- function (align, gap_ratio= 0.2) {
- 
+mi <- function (align, gap_ratio = 0.2) {
+
     if ((gap_ratio < 0) | (gap_ratio > 1)) {
       stop("gap_ratio must be in the [0,1] range.")
     }
@@ -32,7 +32,6 @@ mip <- function (align, gap_ratio= 0.2) {
     if (gap < 1/nb_seq) {
       gap <- 1/nb_seq     # positions must have at leat ONE aa to be taken into account (removes gap column)
     }
-
 
     names<-c("A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","-")
     AA<-lapply(1:length(MSA[1,]),function(i){t(table(c(MSA[,i],names),row.names=c(1:(length(MSA[,i])+21))))[1:length(MSA[,i]),-1]})
@@ -88,28 +87,12 @@ mip <- function (align, gap_ratio= 0.2) {
 	MI[pos_i, pos_j]<-sum((freq_p)*(LOG))
 	}
     }
-
-    #Correction P
-    P <- matrix(0, ncol= nb_pos, nrow= nb_pos)
 	
-    mean_cov=sum(MI)/(length(which(MI!=0)))
-    for(i in 1:(nb_Valid_pos-1)){
-	pos_i <- Valid_pos[i] #current valid position
-	mean_i<-(sum(MI[pos_i,])+sum(MI[,pos_i]))/(nb_pos-1)
-
-	for(k in (i+1):nb_Valid_pos){
-		pos_k <- Valid_pos[k] #current valid position
-		mean_k<-(sum(MI[pos_k,])+sum(MI[,pos_k]))/(nb_pos-1)
-		P[pos_i, pos_k]<-((mean_i*mean_k))/(mean_cov)
-	}
-    }
-
-    diag(P)<-0
 
     COV2<-matrix(0, ncol= nb_pos, nrow= nb_pos)
 	
-    # MIP final value
-    COV2 <- MI-P 
+    # MI final value
+    COV2 <- MI 
 	
     # Setting columns and rows names before matrix reduction
     rownames(COV2)<-pos_names

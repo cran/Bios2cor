@@ -42,20 +42,20 @@ MSF file displays several specificities:
 \value{
 A object of class 'align', which is a named list whose elements correspond to sequences, in the form of character vectors.
 }
-\author{
-Julien Pele
-}
 \note{
-\code{import.msf} checks the presence of duplicated identifiers in header. Sequences whose
-identifiers are missing in header are ignored.
+The \code{import.msf} function was developed for the \code{bios2mds} R package (Julien PELE [aut], Jean-Michel BECU [aut], Marie CHABBERT [cre]).
+
+It checks the presence of duplicated identifiers in header. Sequences whose identifiers are missing in header are ignored.
+}
+\author{
+Julien PELE
 }
 \seealso{
 \code{read.alignment} function from \code{seqinr} package.\cr
 \code{read.GDoc} function from \code{aaMI} package (archived).
 }
 \examples{
-# reading of the multiple sequence alignment of human GPCRs in MSF format:
+  #Importing MSA file in MSF format
   aln <- import.msf(system.file("msa/toy_align.msf", package = "Bios2cor"))
 }
-\keyword{read,import,msf}
 

@@ -13,38 +13,32 @@
 # See the GNU General Public License at:
 # http://www.gnu.org/licenses/
 #
-omes <- function(align, fileHelix = NULL , diag= 0, fileCSV = NULL, gap_val= 0.8, z_score= TRUE) {
+omes <- function(align, gap_ratio = 0.2) {
 
-    if(!is.null(fileHelix)){
-	#each line of the helix file looks like : "name1:x1-x2-x3"
-	Helix<-read.table(fileHelix, sep= "-", stringsAsFactors= FALSE)
-	
-	#so we split each line like this : "name1:x1" "x2" "x3" (read.table can only have one separator)
-	#then we split the "name1:x1" : "name1" "x1" for each line of our data frame Helix we keep "x1"
-	lapply(1:length(Helix[,1]), function(x){ print(Helix[x,1]); Helix[x,1] <<- strsplit(Helix[x,1], split= ":")[[1]][2] })
+    if ((gap_ratio < 0) | (gap_ratio > 1)) {
+      stop("gap_ratio must be in the [0,1] range.")
     }
-    ams<-align
-    N <- matrix(as.vector(unlist(ams)), ncol= length(ams[[1]]), byrow= TRUE)
-    nb_pos <- length(N[1,]) #number of positions in the alignment
-    nb_seq <- length(N[,1]) #number of sequences in the alignment
+ 
+   diag <- 0	
+
+    msa<-align
+    MSA <- matrix(as.vector(unlist(msa)), ncol= length(msa[[1]]), byrow= TRUE)
+    nb_pos <- length(MSA[1,]) #number of positions in the alignment
+    nb_seq <- length(MSA[,1]) #number of sequences in the alignment
+    colnames(MSA)<-c(1:nb_pos)
+    pos_names <- colnames(MSA)  
     
-    if(!is.null(fileHelix)){
-      helix_inds <- unlist(lapply(1:7,function(i){Helix[i,1]:Helix[i,3]}))
-      no_helix_inds <- setdiff(1:nb_pos, helix_inds)
-      
-      helix <- unlist(lapply(1:7,function(i){paste(rep(i,length(Helix[i,1]:Helix[i,3])),(Helix[i,1]:Helix[i,3]+50-Helix[i,2]),sep=".")}))
-      
-      colnames(N) <- c(1:nb_pos)
-      colnames(N)[helix_inds] <- helix
+    gap <- 1-gap_ratio      #gap value indicates the minimal ratio of aa to nb_seq in the MSA 
+    if (gap < 1/nb_seq) {
+      gap <- 1/nb_seq     # positions must have at leat ONE aa to be taken into account (removes gap column)
     }
-    else {
-      colnames(N)<-c(1:nb_pos)
-    }
+
+
     names<-c("A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","-")
 
-    #binary matrix indicating if each amino acid is present or not at position i in the sequence j
+    # Binary matrix indicating which amino acid is present or not at position i in the sequence j
     AA<-lapply(1:nb_pos, function(i){
-	    t(table(c(N[,i],names),row.names=c(1:(nb_seq+21))))[1:nb_seq, -1]
+	    t(table(c(MSA[,i],names),row.names=c(1:(nb_seq+21))))[1:nb_seq, -1]
     })
     
     names<-c("A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y")
@@ -52,32 +46,30 @@ omes <- function(align, fileHelix = NULL , diag= 0, fileCSV = NULL, gap_val= 0.8
     
     COV2<-matrix(0, ncol= nb_pos, nrow= nb_pos)
     
-    #Setting columns and rows names before matrix reduction
-    rownames(COV2)<-paste(rep("pos", nb_pos), colnames(N), sep="")
-    colnames(COV2)<-paste(rep("pos", nb_pos), colnames(N), sep="")
+    # Setting columns and rows names before matrix reduction
+    rownames(COV2)<-pos_names
+    colnames(COV2)<-pos_names 
     
-    #Contains sequences that have unvalid gap proportion (> gap_val)
-    Unvalid_pos <- c()
-    
-    #Looking for positions that have a correct gap proportion (according to "gap_val" argument)
-    for(current_pos in 1:nb_pos){
-      nb_gap_i <- nb_seq-sum(AA[[current_pos]]) #number of gaps in position "current_pos"
-      ratio_i <- nb_gap_i/nb_seq #proportion of gaps in position "current_pos"
-      if(ratio_i > gap_val) Unvalid_pos <- c(Unvalid_pos, current_pos)
+    # Determining valid positions with correct gap ratio (equal to 1 - gap argument)
+    Valid_pos <- c()
+    for(i in 1:nb_pos){
+        mat_i <- AA[[i]] #matrix nb_seq*nb_aa
+        S_i <- colSums(AA[[i]])
+        Tot_i <- sum(S_i)
+        if (Tot_i/nb_seq >= gap) {
+           Valid_pos <- c(Valid_pos, i)
+        }
     }
-    nb_unvalid_pos <- length(Unvalid_pos)
+    nb_Valid_pos <- length(Valid_pos)
     
-    Valid_pos <- setdiff(1:nb_pos, Unvalid_pos)
-    nb_valid_pos <- length(Valid_pos)
-    
-    # Calculating MI score for each valid position
-    for(i in 1:nb_valid_pos){
+    # Calculating score for each valid position
+    for(i in 1:nb_Valid_pos){
       pos_i <- Valid_pos[i] #current valid position
       mat_i <- AA[[pos_i]] #matrix nb_seq*nb_aa
       
       cat(paste("pos_i : ", pos_i, "\n"))
       
-      for(j in i:nb_valid_pos){
+      for(j in i:nb_Valid_pos){
 	pos_j <- Valid_pos[j]
 	mat_j <- AA[[pos_j]] #matrix nb_seq*nb_aa
 	
@@ -93,7 +85,8 @@ omes <- function(align, fileHelix = NULL , diag= 0, fileCSV = NULL, gap_val= 0.8
       }
     }
     
-    COV2<-COV2+t(COV2) #Complete the second triangular part of the matrix
+    #Complete the second triangular part of the matrix
+    COV2<-COV2+t(COV2) 
     diag(COV2) <- diag
     
     #Reducting the final correlation matrix to the valid positions
@@ -105,14 +98,19 @@ omes <- function(align, fileHelix = NULL , diag= 0, fileCSV = NULL, gap_val= 0.8
     COV2[is.na(COV2)] <- 0
     
     res <- list()
-    res$gross <- COV2
+  
+    # save matrix of score 
+    res$score <- COV2
     
-    if(z_score){
-      COV2 <- (COV2-mean(COV2))/sd(COV2)
-    }
+    # compute and save matrix of Z_scores
+    # mean and stdev must be calculated on off diagonal elements  
+    mean_up <- mean(COV2[upper.tri(COV2)])
+    stdev <- sd(COV2[upper.tri(COV2)])
     
-    res$normalized <- COV2
-    
+    COV2 <- (COV2-mean_up)/stdev
+    diag(COV2) <- diag
+       
+    res$Zscore <- COV2
     
     return(res)
 }

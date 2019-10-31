@@ -1,19 +1,19 @@
-\name{mip}
+\name{mi}
 
 \Rdversion{1.1}
 
-\alias{mip}
+\alias{mi}
 
 \title{
-  Mutual Information product  (MIP) function
+  Mutual Information (MI) function
 }
 
 \description{
-  Calculates a corrected mutual information score (MIP), by substraction of the average product from the probability of joint occurrence of events. 
+  Calculates a mutual information score (MI) based on the probability of joint occurrence of events.
 }
 
 \usage{
-  mip(align, gap_ratio = 0.2)
+  mi(align, gap_ratio= 0.2)
 }
 
 \arguments{
@@ -26,16 +26,10 @@
 }
 
 \details{
-  The MIp score at position [i,j] has been computed with the following formula :
+  The MI score at position [i,j] has been computed with the following formula :
   
-  \deqn{{MIp(i,j)} = MI(i,j) - \frac{MI(i,\bar{j})MI(\bar{i},j)}{<MI>}}
-  
-  with :
     \itemize{
       \item {\emph{\eqn{{MI(i,j) = \sum_{x,y}^{ } p_{x,y}(i,j) ln\frac{p_{x,y}(i,j)}{p_{x}(i)p_{y}(j)}}}}} {}
-      \item {\emph{\eqn{MI(i,\bar{j}) = \frac{1}{n-1} \sum_{j \neq i}^{ } MI(i,j)}}} {}
-      \item {\emph{\eqn{MI(\bar{i},j) = \frac{1}{n-1} \sum_{i \neq j}^{ } MI(i,j)}}} {}
-      \item {\emph{\eqn{<MI> = \frac{2}{n(n-1)} \sum_{i,j}^{ }MI(i,j)}}} {}
     }
     
   and where \emph{\eqn{p_{x,y}(i,j)}} is the frequency of the amino acid pair (x,y) at positions i and j.
@@ -44,7 +38,7 @@
 }
 
 \value{
-  A list of two elements which are numerical matrices containing the MIP scores and Z-scores for each pair of elements. 
+  A list of two elements which are numeric matrices containing the MI scores and Z-scores for each pair of elements. 
 }
 
 \author{
@@ -62,8 +56,8 @@
   #Importing MSA file
   align <- import.fasta(system.file("msa/toy2_align.fa", package = "Bios2cor"))
 
-  #Creating correlation object with MIP method for positions with gap ratio < 0.2 (Default) 
-  mip <- mip(align)
+  #Creating correlation object with MI method for positions with gap ratio < 0.2 (Default)
+  mi <- mi(align)
 }
 
 

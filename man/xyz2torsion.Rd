@@ -57,4 +57,4 @@ xyz2torsion(pdb, xyz, tbl = c("basic", "mainchain",
   tor <- xyz2torsion(pdb, xyz[frames,], tbl = "sidechain", ncore= 1)
 }
 
-\keyword{ utilities } 
+

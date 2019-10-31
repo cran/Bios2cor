@@ -13,17 +13,17 @@ Entropy score
 }
 
 \usage{
-  entropy(align, fileHelix= NULL)
+  entropy(align, gap_ratio=0.2)
 }
 
 \arguments{
  \item{align}{
-  An object created by the \bold{\emph{import.msf}} function which required an alignment file name
+  An object created by the \code{\link{import.msf}} or the \code{\link{import.fasta}} function from a multiple sequence alignment file
  }
- \item{fileHelix}{
-  A file that contains the positions of the anchor residues in the sequence alignment. Developped for analysis of GPCR sequence alignments 
+ \item{gap_ratio}{
+  Numeric value between 0 and 1 indicating the maximal gap ratio at a given position in the MSA for this position to be taken into account. 1 is excluded (positions with gaps only). Default is 0.2, positions with more than 20 percent of gaps will not be taken into account in the analysis. When gap_ratio is 1 or close to 1, only positions with at least 1 aa are taken into account (positions with only gaps are excluded). 
  }
- 
+
 }
 
 \details{
@@ -43,7 +43,7 @@ Entropy score
 }
 
 \author{
-  Antoine GARNIER
+  Antoine GARNIER and Marie CHABBERT
 }
 
 
@@ -52,13 +52,11 @@ Entropy score
 } 
   
 \examples{
-  align <- import.msf(system.file("msa/toy_align.msf", package = "Bios2cor"))
- 
-  #creating entropy object
-  #entropy <- entropy(align, fileHelix = helix)
-  entropy <- entropy(align)
+  #Importing MSA file
+  align <- import.msf(system.file("msa/human_gpcr.msf", package = "Bios2cor"))
+
+  #creating entropy object for positions with gap ratio < 0.5
+  entropy <- entropy(align,gap_ratio=0.5)
 }
 
-\keyword{entropy}
-\keyword{score}
-\keyword{Shannon}
+

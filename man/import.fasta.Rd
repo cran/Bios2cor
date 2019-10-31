@@ -48,15 +48,20 @@ Reads a file in FASTA format
   \emph{Proc Natl Acad Sci U S A} \bold{27}:2444-2448.
 }
 
+\note{
+  The \code{import.fasta} function was developed for the \code{bios2mds} R package (Julien PELE [aut], Jean-Michel BECU [aut], Marie CHABBERT [cre]).
+.
+}
+
 \author{
-  Julien Pele
+  Julien PELE
 }
 
 
 \examples{
-  # reading of the multiple sequence alignment of human GPCRS in FASTA format:
+  # Importing MSA file in FASTA format
   aln <- import.fasta(system.file("msa/toy2_align.fa", package = "Bios2cor"))
 }
 
-\keyword{read,import,fasta}
+
 
