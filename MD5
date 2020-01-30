@@ -1,4 +1,4 @@
-1f563d9225444f9bc78d6b896d55315c *DESCRIPTION
+7011a4e25c1c702950983345818ca747 *DESCRIPTION
 71b2b58432c54df0bacac085796def3e *NAMESPACE
 6494fcf0a0f4eab5f3e908ab2e48622e *R/angle2rotamer.R
 dcf1d2234f89d36f47093b73dbc429c6 *R/angles.plot.R
@@ -22,7 +22,7 @@ f35f9300f3c69bc3c14265dc4802a4ac *R/mcbasc.R
 f5b98c8a4d9df9e0d3f1fc1564dee946 *R/pca_2d.R
 bb26ea603173dc70bc89f5a8574e7ab1 *R/pca_screeplot.R
 76baf45f48b5f91c25948260e6eb59f0 *R/random.msa.R
-a2132a222b8c11b62b59907e668572cf *R/scores.boxplot.R
+166c2803a5a107424f17dff0478fa319 *R/scores.boxplot.R
 446b585a73f77d3cbb2ef5f93f7acaee *R/scores_entropy.plot.R
 3ca3e020cc6984c141ba8cf564537a33 *R/top_pairs_analysis.R
 b4e7ece287ce6fff497a8646f13bc047 *R/write.entropy.R
@@ -42,7 +42,7 @@ f7a6f7d0aeb112a198511eef59bf1a40 *inst/rotamer/tiny_toy_dynamics.dcd
 6e805c90331c9ddd0522c1e321d223ee *inst/rotamer/toy_dynamics.dcd
 958d4fb2c1f1ab20590da18330667296 *man/angle2rotamer.Rd
 1d4ddf0e7ae863555f496002261af938 *man/angles.plot.Rd
-d1d21a8ea0afb0a0b4f9da3ec2f5aaa4 *man/bios2cor-package.Rd
+3b5294df56f1f400045b59b1995d95c9 *man/bios2cor-package.Rd
 cf2e2973f3a6d15dce728417042ce46e *man/centered_pca.Rd
 0f59c05d5981c6d2aa63bc7349a42351 *man/delta_filter.Rd
 d208f8e9de84c385ece6b3c986335399 *man/dynamic_circular.Rd

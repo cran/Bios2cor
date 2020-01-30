@@ -17,7 +17,7 @@ scores.boxplot <- function(corr_matrix_list, name_list, filepathroot=NULL, elite
   }else{
     filename <- paste(filepathroot, "_BOXPLOT.png", sep = "")
   }
-  corr_tab <- sapply(corr_matrix_list, function(x){ as.vector(x)})
+  corr_tab <- sapply(corr_matrix_list, function(x){as.vector(x)})
   nb_objects <- length(corr_matrix_list)
   
 
@@ -26,19 +26,21 @@ scores.boxplot <- function(corr_matrix_list, name_list, filepathroot=NULL, elite
   png(filename, width = 600, height = 400, units = "px", pointsize = 12)
     boxplot(corr_tab, names = name_list, xlab="Z-score", cex.lab=1.5, cex.axis=0.90, col = "grey", outcol = "grey", horizontal=T, las=1)
     for(i in 1:nb_objects){
+      matrix <- corr_matrix_list[i]
+      X <- upper.tri(matrix,diag=FALSE)             
       increasing_corr <- sort(corr_tab[,i])
       decreasing_corr <- sort(corr_tab[,i], decreasing= TRUE)
       
-      top_high <- decreasing_corr[(elite+1):high]
+      top_high <- decreasing_corr[1:high*2]
       points(top_high, rep(i,length(top_high)), pch=16, col="dodgerblue")
       
-      top_elite <- decreasing_corr[1:elite]
+      top_elite <- decreasing_corr[1:elite*2]
       points(top_elite, rep(i,length(top_elite)), pch=16, col="blue")
       
-      bottom_high <- increasing_corr[(elite):high]
+      bottom_high <- increasing_corr[1:high*2]
       points(bottom_high, rep(i,length(bottom_high)), pch=16, col="pink")
       
-      bottom_elite <- increasing_corr[1:elite]
+      bottom_elite <- increasing_corr[1:elite*2]
       points(bottom_elite, rep(i,length(bottom_elite)), pch=16, col="red")
     }
     

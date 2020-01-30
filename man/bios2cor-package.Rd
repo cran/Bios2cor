@@ -1,5 +1,5 @@
 \name{bios2cor-package}
-\Rdversion{2.0}
+\Rdversion{2.1}
 \alias{bios2cor-package}
 \alias{bios2cor}
 \alias{Bios2cor}
@@ -107,8 +107,8 @@ For clarity purpose, version 2 of the package differentiates scoring functions w
 \tabular{ll}{
   Package: \tab BioCor\cr
   Type: \tab Package\cr
-  Version: \tab 2.0\cr
-  Date: \tab 2019-10-28\cr
+  Version: \tab 2.1\cr
+  Date: \tab 2020-01-30\cr
   License: \tab GPL \cr
 }
 }
