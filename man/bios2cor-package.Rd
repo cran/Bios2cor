@@ -1,5 +1,5 @@
 \name{bios2cor-package}
-\Rdversion{2.1}
+\Rdversion{2.2}
 \alias{bios2cor-package}
 \alias{bios2cor}
 \alias{Bios2cor}

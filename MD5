@@ -1,4 +1,4 @@
-7011a4e25c1c702950983345818ca747 *DESCRIPTION
+15efe43b6eb44cb2f6e955d69d7c4e9e *DESCRIPTION
 71b2b58432c54df0bacac085796def3e *NAMESPACE
 6494fcf0a0f4eab5f3e908ab2e48622e *R/angle2rotamer.R
 dcf1d2234f89d36f47093b73dbc429c6 *R/angles.plot.R
@@ -42,7 +42,7 @@ f7a6f7d0aeb112a198511eef59bf1a40 *inst/rotamer/tiny_toy_dynamics.dcd
 6e805c90331c9ddd0522c1e321d223ee *inst/rotamer/toy_dynamics.dcd
 958d4fb2c1f1ab20590da18330667296 *man/angle2rotamer.Rd
 1d4ddf0e7ae863555f496002261af938 *man/angles.plot.Rd
-3b5294df56f1f400045b59b1995d95c9 *man/bios2cor-package.Rd
+08b096dca111def10800d6d6b77b3243 *man/bios2cor-package.Rd
 cf2e2973f3a6d15dce728417042ce46e *man/centered_pca.Rd
 0f59c05d5981c6d2aa63bc7349a42351 *man/delta_filter.Rd
 d208f8e9de84c385ece6b3c986335399 *man/dynamic_circular.Rd
