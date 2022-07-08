@@ -31,14 +31,14 @@
   
   \deqn{ELSC(i,j) = -ln\prod_{y}^{ } \frac{{{N_{y(j)}}\choose{n_{y(j)}}}}{{{N_{y(j)}}\choose{m_{y(j)}}}}}
   
-  As a reminder, a binomial coefficient \emph{\eqn{{N}\choose{k}}} is computed as follow :
-  \emph{\deqn{{{N}\choose{k}} = \frac{N!}{k!(N-k)!}}}
+  As a reminder, a binomial coefficient \eqn{{N}\choose{k}} is computed as follow :
+  \deqn{{{N}\choose{k}} = \frac{N!}{k!(N-k)!}}
   
   where :
     \itemize{
-      \item {\emph{\eqn{N_{y(j)}}}} {is the number of residues y at position j in the total (unperturbed) sequence alignment}
-      \item {\emph{\eqn{n_{y(j)}}}} {is the number of residues y at position j in the subset alignment defined by the perturbation in column i}
-      \item {\emph{\eqn{m_{y(j)}}}} {is the number of residues y at position j in the ideal subset (i.e., in a subset with the amino acid distribution equal to the total alignment)}
+      \item {\eqn{N_{y(j)}}} {is the number of residues y at position j in the total (unperturbed) sequence alignment}
+      \item {\eqn{n_{y(j)}}} {is the number of residues y at position j in the subset alignment defined by the perturbation in column i}
+      \item {\eqn{m_{y(j)}}} {is the number of residues y at position j in the ideal subset (i.e., in a subset with the amino acid distribution equal to the total alignment)}
     }
 }
 

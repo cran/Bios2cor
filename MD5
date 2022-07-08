@@ -1,4 +1,4 @@
-15efe43b6eb44cb2f6e955d69d7c4e9e *DESCRIPTION
+9a0742125411f920fc5bc56b50034acf *DESCRIPTION
 71b2b58432c54df0bacac085796def3e *NAMESPACE
 6494fcf0a0f4eab5f3e908ab2e48622e *R/angle2rotamer.R
 dcf1d2234f89d36f47093b73dbc429c6 *R/angles.plot.R
@@ -51,7 +51,7 @@ a55ef83a8b713df694cfd80566623696 *man/dynamic_mi.Rd
 be8c24ee2b6223bb976b39177b07249b *man/dynamic_mip.Rd
 ed23e1ddfa541e372e42613e10a29764 *man/dynamic_omes.Rd
 e25a4bf5db6154c0defc92d0c8368837 *man/dynamic_structure.Rd
-e65a4b79ce8e58b27991b8c88d434262 *man/elsc.Rd
+8671410f43cf50ddffe507702874dc36 *man/elsc.Rd
 c2e65bd7bcc34b76f9cf4cc09e8b629e *man/entropy.Rd
 bdc43b588e70418d1e9b915453304707 *man/import.fasta.Rd
 c867436c19307293bff7c2e7778c765c *man/import.msf.Rd
